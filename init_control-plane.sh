@@ -22,7 +22,7 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt
 sudo apt update
 
 # Install kubelet, kubeadm and kubectl and prevent them from being updated in the future
-sudo apt install -y kubelet kubeadm kubectl
+sudo apt install -y kubelet=1.27.3-00 kubeadm=1.27.3-00 kubectl=1.27.3-00
 sudo apt-mark hold kubelet kubeadm kubectl
 
 # Initialize control-plane also setting up the pod-network-cidr necessary for calico (pod network provider)
