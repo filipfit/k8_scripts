@@ -1,5 +1,5 @@
 #! /usr/bin/bash
 
-./nvidia-container-toolkit_install.sh
-./helm_install.sh
+source nvidia-container-toolkit_install.sh
+source ./helm_install.sh
 
