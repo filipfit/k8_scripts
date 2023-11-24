@@ -31,7 +31,8 @@ When executed on the initial master node, prints the command that needs to be ex
 Effectively removes a node from the cluster. Runs the `kubeadm reset` command and does some further cleanup.
 
 ## perma_disable_swap
-Permanently disables swap by commenting out every line in the `/etc/fstab` file containung the word " swap ". Not actually used as this functionality is included in the other scripts that need it.
+Permanently disables swap by commenting out every line in the `/etc/fstab` file containing the word 
+" swap ". Not actually used as this functionality is included in the other scripts that need it.
 
 ## setup_networking
 Makes changes to networking settings. Not used in the cluster setup. Left in just in case for future use.
@@ -41,7 +42,7 @@ Makes changes to networking settings. Not used in the cluster setup. Left in jus
 ## enable_gpu
 > Execute on a node for it to be able to run GPU workloads.
 
-Run `kubectl describe node <gpu-node-name>` and look for the "Allocatable" section. If it has the `nvidia.com/gpu` with a value of "1" or more, like this:
+After running this scripts also run `kubectl describe node <gpu-node-name>` and look for the "Allocatable" section. If it has the `nvidia.com/gpu` with a value of "1" or more, like this:
 ```
 Allocatable:
   cpu:                12
@@ -56,6 +57,7 @@ This script has the combined functionality of all of the following gpu scripts.
 
 ### Configure Docker or Containerd for GPU
 Before the device plugin can function changes must be made to some files depending on the chosen container runtime on a node. In this installation process we are using containerd, but if you are unsure, run `kubectl get nodes -o wide` to list all nodes and check their configured container runtime.
+
 
 **For containerd as a runtime (used in this whole installation process):**
 Create or modify the file `/etc/containerd/config.toml` to contain the following:
@@ -77,6 +79,7 @@ version = 2
 ```
 Afterwards run `sudo nvidia-ctk runtime configure --runtime=containerd` and restart the containerd service using `systemctl restart containerd`.
 
+---
 
 **For docker as a runtime:**
 Create or modify the file `/etc/docker/daemon.json` to contain the following:
@@ -95,17 +98,17 @@ Afterwards run `sudo nvidia-ctk runtime configure --runtime=docker` and restart 
 
 
 ## helm_install
-Installs helm, a package manager for Kubernetes. Used to install the NVIDIA device plugin for Kubernetes. Run `helm version --short` to check the installation.
+Installs helm, a package manager for Kubernetes. Helm is used to install the NVIDIA device plugin for Kubernetes. Run `helm version --short` to check the installation.
 
 ## nvidia_container_toolkit_install
 Installs the nvidia-container-tookit, needed by the NVIDIA device plugin for Kubernetes. Run `nvidia-ctk --version` to check the installation.
 
 ## device_plugin_install
-Install the NVIDIA device plugin for Kubernetes using helm. Run `helm list -A` to check if the plugin was installed successfully.
+Installs the NVIDIA device plugin for Kubernetes using helm. Run `helm list -A` to check if the plugin was installed successfully.
 
 
 # Possible errors
-If there are any problems with a node, first try restarting the `docker`, `containerd` and `kubelet` services on that node by running `sudo systemctl restart docker containerd kubelet`.
+If there is a problem with a node, first try restarting the `docker`, `containerd` and `kubelet` services on that node by running `sudo systemctl restart docker containerd kubelet`.
 
 ## Container runtime is not running
 ```
