@@ -2,7 +2,6 @@
 # Author: Markos Genios, Filip Fitzermann
 # Assumes running on Ubuntu 20.04
 
-
 # apt update
 sudo apt update -y
 sudo apt upgrade -y

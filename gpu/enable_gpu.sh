@@ -1,4 +1,5 @@
 #! /usr/bin/bash
+# Author: Filip Fitzermann
 
 # Install nvidia-container-toolkit. Taken from taken from https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installing-with-apt
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
