@@ -25,7 +25,7 @@ On the worker node, check if the node has been successfully added by running `ku
 ## kubeadm_join_command
 > Run output on worker nodes to add them to the cluster.
 
-Prints the command that needs to be executed on a system for it to be added to the cluster as a worker node.
+When executed on the initial master node, prints the command that needs to be executed on a system for it to be added to the cluster as a worker node.
 
 ## reset_kubeadm
 Effectively removes a node from the cluster. Runs the `kubeadm reset` command and does some further cleanup.
@@ -104,7 +104,7 @@ Installs the nvidia-container-tookit, needed by the NVIDIA device plugin for Kub
 Install the NVIDIA device plugin for Kubernetes using helm. Run `helm list -A` to check if the plugin was installed successfully.
 
 
-# Errors
+# Possible errors
 If there are any problems with a node, first try restarting the `docker`, `containerd` and `kubelet` services on that node by running `sudo systemctl restart docker containerd kubelet`.
 
 ## Container runtime is not running
@@ -114,4 +114,10 @@ root@kubemaster:~$ sudo kubeadm init
 ```
 If this error comes up while initializing the master node or adding a worker to the cluster, try restarting the `docker` and `containerd` services by running `systemctl restart docker containerd`. If this does not solve the problem delete the file `/etc/containerd/config.toml`, restart containerd and try again.
 
+## kubectl: Connection refused
+The error "Connection refused" when running a kubectl command often means that swap is not turned off.
+Turn off swap temporarily by running `sudo swapoff -a` or run the `perma_disable_swap.sh` script.
+Some PCs turn swap back on after reboot, even after "permanently" turning it off by changing the `/etc/fstab` file.
 
+## Node does not have status READY
+If a node does not change its status to READY after a while (typically max. 10 minutes) you can restart the services needed by Kubernetes by running `sudo systemctl restart docker containerd kubelet`. If that does not help, restart the system. If that also fails look at the events in the node by running `kubectl describe node <node-name>` and try to solve the problem from there.

@@ -24,4 +24,3 @@ sudo apt update
 # Install kubelet, kubeadm and kubectl and prevent them from being updated in the future
 sudo apt install -y kubelet=1.27.3-00 kubeadm=1.27.3-00 kubectl=1.27.3-00
 sudo apt-mark hold kubelet kubeadm kubectl
-
